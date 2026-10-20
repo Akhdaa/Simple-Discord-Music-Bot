@@ -1,103 +1,88 @@
-# Discord Music Bot
+# Simple Discord Music Bot
 
-Bot Discord yang bisa muter lagu dari YouTube langsung di voice channel.
+Bot Discord buat muter lagu dari YouTube di voice channel. Bisa dikontrol pakai slash command (`/play`) atau prefix (`!play`), dan di pesan player ada tombol buat pause, skip, dan loop.
 
----
+Yang bisa dilakukan:
 
-## ⚡ Cara Jalanin
+- Putar lagu dari judul atau link YouTube
+- Antrian, loop satu lagu, dan autoplay (muter lagu terkait kalau antrian habis)
+- `/search` untuk milih dari beberapa hasil pencarian
+- Pesan player dengan progress bar dan tombol replay, pause, skip, stop, loop
 
-### Step 1 — Buat Discord Bot
+## Yang dibutuhkan
 
-1. Buka [Discord Developer Portal](https://discord.com/developers/applications)
-2. Klik **New Application** → kasih nama → **Create**
-3. Pergi ke tab **Bot** → klik **Add Bot** → **Yes, do it!**
-4. Di bagian **Privileged Gateway Intents**, aktifkan:
-   - ✅ **SERVER MEMBERS INTENT**
-   - ✅ **MESSAGE CONTENT INTENT**
-5. Klik **Save Changes**
-6. Klik **Reset Token** → **Copy** token-nya (simpan, jangan share!)
+- Node.js 22.12 atau lebih baru
+- Token bot Discord
 
-### Step 2 — Invite Bot ke Server
+ffmpeg dan yt-dlp ikut terpasang lewat `npm install`, jadi tidak perlu dipasang sendiri.
 
-1. Masih di Developer Portal → tab **OAuth2** → **URL Generator**
-2. Centang scope: `bot`
-3. Centang permissions:
-   - ✅ Read Messages / View Channels
-   - ✅ Send Messages
-   - ✅ Connect
-   - ✅ Speak
-   - ✅ Use Voice Activity
-4. Copy URL yang muncul di bawah → buka di browser → pilih server kamu
+## Bikin bot di Discord
 
-### Step 3 - Cara di VSCode
+1. Buka [Discord Developer Portal](https://discord.com/developers/applications), klik **New Application**, kasih nama.
+2. Di tab **Bot**, klik **Reset Token** lalu salin tokennya. Jangan dibagikan ke siapa pun.
+3. Masih di tab **Bot**, nyalakan **Message Content Intent**. Ini dipakai buat command berawalan `!`. Intent lainnya tidak perlu.
+4. Di **OAuth2 → URL Generator**, pilih scope `bot` dan `applications.commands`, lalu permission berikut: View Channels, Send Messages, Embed Links, Read Message History, Connect, Speak.
+5. Buka URL yang dihasilkan, pilih server tujuan.
 
-1. Clone Repo ini
-2. buat file ".env" dan isi sesuai dengan ".env.example"
-4. di terminal "npm install"
-5. kemudian kalau sudah selesai "npm start"
+## Menjalankan
 
-### Step 4 — Jalanin di GitHub Codespaces
-## Note : Skip Step ini jika jalanin di VSCode
+### Di komputer sendiri
 
-1. Push folder ini ke GitHub repo kamu
-2. Buka repo → klik **Code** → **Codespaces** → **Create codespace on main**
-3. Tunggu sampai setup selesai (ffmpeg & npm install otomatis)
-4. Di terminal Codespaces, buat file `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-5. Buka file `.env` dan isi token:
-   ```
-   DISCORD_TOKEN=paste_token_kamu_disini
-   ```
-6. Jalankan bot:
-   ```bash
-   npm start
-   ```
-7. Kalau muncul `✅ Bot online sebagai NamaBot#1234` → bot udah jalan! 🎉
+```bash
+git clone https://github.com/Akhdaa/Simple-Discord-Music-Bot.git
+cd Simple-Discord-Music-Bot
+cp .env.example .env     # lalu isi DISCORD_TOKEN di file .env
+npm install
+npm start
+```
 
----
+Kalau muncul `Bot online sebagai ...`, bot sudah jalan. Slash command didaftarkan otomatis tiap bot nyala. Kalau belum muncul di Discord, refresh dulu dengan Ctrl+R.
 
-## Daftar Command
+Di Windows bisa juga klik `bot_start.bat`: dia menjalankan `npm install` kalau belum pernah, lalu `npm start`. File `.env` tetap harus dibuat dulu.
 
-| Command | Shortcut | Fungsi |
+`npm run dev` menjalankan bot dan restart otomatis tiap ada file yang berubah.
+
+### Di GitHub Codespaces
+
+Buka repo, klik **Code → Codespaces → Create codespace on main**. Dependensi terpasang sendiri. Setelah itu buat `.env` seperti di atas dan jalankan `npm start`.
+
+Bot ikut mati begitu codespace berhenti, jadi cara ini cocok buat coba-coba, bukan buat jalan terus.
+
+## Command
+
+| Slash | Prefix | Fungsi |
 |---|---|---|
-| `!play <lagu/url>` | `!p` | Putar lagu (nama atau link YouTube) |
-| `!skip` | `!s` | Skip lagu sekarang |
-| `!pause` | — | Pause musik |
-| `!resume` | `!r` | Lanjutkan musik |
-| `!stop` | — | Stop & bot keluar VC |
-| `!loop` | `!l` | Toggle loop lagu ini |
-| `!queue` | `!q` | Lihat antrian |
-| `!nowplaying` | `!np` | Lihat lagu yang diputar |
-| `!help` | `!h` | Daftar command |
+| `/play`, `/p` | `!play`, `!p` | Putar lagu dari judul atau link YouTube |
+| `/search`, `/sc` | `!search`, `!sc` | Cari lagu lalu pilih dari hasilnya |
+| `/skip`, `/s` | `!skip`, `!s` | Lewati lagu yang sedang diputar |
+| `/pause` | `!pause` | Jeda |
+| `/resume`, `/r` | `!resume`, `!r` | Lanjutkan |
+| `/stop` | `!stop` | Berhenti dan bot keluar dari voice channel |
+| `/loop`, `/l` | `!loop`, `!l` | Ulang lagu yang sedang diputar |
+| `/autoplay`, `/ap` | `!autoplay`, `!ap` | Putar lagu terkait kalau antrian habis |
+| `/queue`, `/q` | `!queue`, `!q` | Lihat antrian |
+| `/clear` | `!clear` | Kosongkan antrian |
+| `/nowplaying`, `/np` | `!nowplaying`, `!np` | Lagu yang sedang diputar |
+| `/controls`, `/c`, `/ct` | | Panel kontrol dengan tombol |
+| `/help`, `/h` | `!help`, `!h` | Daftar command |
+| `/aliases` | `!aliases` | Semua shortcut |
+| `/changelog` | | Riwayat versi |
 
-### Contoh penggunaan:
-```
-!play lofi hip hop
-!play https://www.youtube.com/watch?v=xxxxx
-!p never gonna give you up
-```
-
----
-
-## 📁 Struktur Project
+Contoh:
 
 ```
-discord-music-bot/
-├── .devcontainer/
-│   └── devcontainer.json   ← Konfigurasi Codespaces
-├── src/
-│   └── index.js            ← Kode utama bot
-├── .env.example            ← Template environment variable
-├── .gitignore
-└── package.json
+/play lofi hip hop
+!p https://www.youtube.com/watch?v=xxxxx
 ```
 
----
+## Cookies YouTube (opsional)
 
-## ⚠️ Catatan
+Kalau YouTube minta login atau menolak dengan pesan "confirm you're not a bot", taruh cookies di `src/cookies.txt`. Isinya bisa file format Netscape (hasil ekspor ekstensi cookies.txt) atau string header `Cookie` mentah (`nama=nilai; nama2=nilai2`). Format kedua dikonversi bot sendiri.
 
-- Bot ini menggunakan `play-dl` untuk stream audio dari YouTube
-- Streaming YouTube melanggar ToS YouTube, gunakan untuk server private
-- Kalau bot tidak bisa didengar, pastikan **Deafen** bot di-disable di server settings
+File itu sudah masuk `.gitignore`, jangan di-commit. Lebih aman pakai akun cadangan, bukan akun utama.
+
+## Catatan
+
+- Streaming audio dari YouTube melanggar ToS YouTube. Pakai di server pribadi.
+- Kalau suara tidak keluar, cek bot tidak di-deafen di server dan punya izin Connect dan Speak di voice channel itu.
+- Kalau `npm install` mengeluh soal versi Node, update Node dulu. `@discordjs/voice` versi 0.19 minta 22.12 ke atas.

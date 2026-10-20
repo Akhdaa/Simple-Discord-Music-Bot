@@ -1,10 +1,7 @@
 node_modules/
 .env
 *.log
-claude.md
-.gitignore
 package-lock.json
 
-src/index.js2
 src/cookies.txt
 src/cookies_netscape.txt

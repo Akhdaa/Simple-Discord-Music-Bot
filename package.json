@@ -1,7 +1,7 @@
 {
   "name": "discord-music-bot",
-  "version": "1.0.0",
-  "description": "Discord bot yang bisa muter YouTube",
+  "version": "2.0.0",
+  "description": "Bot Discord untuk memutar lagu dari YouTube di voice channel",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -12,10 +12,12 @@
     "@discordjs/voice": "^0.19.0",
     "@snazzah/davey": "^0.1.6",
     "yt-dlp-exec": "^1.0.2",
-    "ytsr": "^3.1.0",
     "opusscript": "^0.1.1",
     "ffmpeg-static": "^5.2.0",
     "libsodium-wrappers": "^0.7.15",
     "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

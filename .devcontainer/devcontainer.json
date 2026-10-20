@@ -1,18 +1,10 @@
 {
   "name": "Discord Music Bot",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
 
-  "postCreateCommand": "npm install && echo '✅ Setup selesai! Buat file .env dan isi DISCORD_TOKEN kamu.'",
+  "postCreateCommand": "npm install && echo 'Setup selesai. Buat file .env (lihat .env.example), lalu jalankan npm start.'",
 
-  "postStartCommand": "npm start",
 
-  "forwardPorts": [3000],
-  "portsAttributes": {
-    "3000": {
-      "label": "Dashboard",
-      "onAutoForward": "notify"
-    }
-  },
 
   "customizations": {
     "vscode": {
